@@ -1,6 +1,9 @@
 package Vistas;
 
-import javaswingdev.main.*;
+import Controlador.CtrlVenta;
+import Modelo.Venta;
+import Modelo.VentaDAO;
+import Panels.PnlVenta;
 import java.awt.Component;
 import javaswingdev.form.Form_Dashboard;
 import javaswingdev.form.Form_Empty;
@@ -23,6 +26,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
             public void menuSelected(int index, int indexSubMenu) {
                 if (index == 0 && indexSubMenu == 0) {
                     showForm(new Form_Dashboard());
+                } else if(index == 2){
+                    PnlVenta pnl = new PnlVenta();
+                    CtrlVenta ctrlVenta = new CtrlVenta(pnl);
+                    showForm(pnl);
                 } else {
                     showForm(new Form_Empty(index + " " + indexSubMenu));
                 }
