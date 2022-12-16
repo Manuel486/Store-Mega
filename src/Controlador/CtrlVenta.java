@@ -10,6 +10,7 @@ import Modelo.Producto;
 import Modelo.Venta;
 import Modelo.VentaDAO;
 import Panels.PnlVenta;
+import static Util.Util.modelo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -35,7 +36,7 @@ public class CtrlVenta implements ActionListener, ItemListener {
     Date fecha = new Date();
     SimpleDateFormat formmato = new SimpleDateFormat("yyyy-MM-dd");
 
-    DefaultTableModel modelo = new DefaultTableModel();
+    //DefaultTableModel modelo = new DefaultTableModel();
     List<Producto> lista = ventaDAO.listarProducto();
 
     public CtrlVenta(PnlVenta pnl) {
@@ -49,6 +50,16 @@ public class CtrlVenta implements ActionListener, ItemListener {
         this.pnl.lblVenta.setText(String.valueOf(ventaDAO.idVenta() + 1));
         this.pnl.lblID.setVisible(false);
         listarProductos(this.pnl.cmbProductos);
+        recuperarInformacion();
+    }
+
+    public void recuperarInformacion() {
+        if (modelo.getRowCount() > 0) {
+            // Llenando tabla
+            this.pnl.tblProductos.setModel(modelo); 
+            // Actualizando lblTotalPagar
+            totalPagar();
+        }
     }
 
     public void agregarProducto(JTable tabla) {
@@ -85,20 +96,26 @@ public class CtrlVenta implements ActionListener, ItemListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == pnl.btnRegistrar) {
-            Venta venta1 = new Venta(
-                    1,
-                    Integer.parseInt(pnl.lblID.getText()),
-                    Double.parseDouble(pnl.lblTotalAPagar.getText()),
-                    this.formmato.format(fecha),
-                    1,
-                    15);
+            int nfilas = pnl.tblProductos.getRowCount();
+            if (!pnl.txtDNI.getText().equals("") && !pnl.txtNombre.getText().equals("") && nfilas > 0) {
+                Venta venta1 = new Venta(
+                        1,
+                        Integer.parseInt(pnl.lblID.getText()),
+                        Double.parseDouble(pnl.lblTotalAPagar.getText()),
+                        this.formmato.format(fecha),
+                        1,
+                        15);
 
-            if (ventaDAO.registrarVenta(venta1)) {
-                JOptionPane.showMessageDialog(null, "Venta registrada");
-                registrarDetalle();
-                limpiar();
+                if (ventaDAO.registrarVenta(venta1)) {
+                    JOptionPane.showMessageDialog(null, "Venta registrada");
+                    registrarDetalle();
+                    limpiar();
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al Guardar");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Error al Guardar");
+                JOptionPane.showMessageDialog(null, "Debe ingresar al menos un producto y completar los datos del cliente");
             }
         }
 

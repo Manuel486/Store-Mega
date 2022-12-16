@@ -33,9 +33,15 @@ public class VentaDAO extends Conexion {
            
            return true;
         } catch (SQLException e){
-            System.out.println(e);
-            return false;
+            System.out.println(e);    
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
         }
+        return false;
     }
     
     public boolean registrarDetalle(Detalle detalle){
@@ -54,9 +60,15 @@ public class VentaDAO extends Conexion {
            ps.execute();
            return true;
         } catch (SQLException e){
-            System.out.println(e);
-            return false;
+            System.out.println(e);    
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
         }
+        return false;
     }
     
     public List listarProducto(){
