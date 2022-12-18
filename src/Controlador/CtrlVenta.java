@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,7 +57,7 @@ public class CtrlVenta implements ActionListener, ItemListener {
     public void recuperarInformacion() {
         if (modelo.getRowCount() > 0) {
             // Llenando tabla
-            this.pnl.tblProductos.setModel(modelo); 
+            this.pnl.tblProductos.setModel(modelo);
             // Actualizando lblTotalPagar
             totalPagar();
         }
@@ -109,6 +110,12 @@ public class CtrlVenta implements ActionListener, ItemListener {
                 if (ventaDAO.registrarVenta(venta1)) {
                     JOptionPane.showMessageDialog(null, "Venta registrada");
                     registrarDetalle();
+                    Cliente cliente = new Cliente();
+                    cliente.setDni(pnl.txtDNI.getText());
+                    cliente.setNombre(pnl.txtNombre.getText());
+                    cliente.setApellido(pnl.txtApellido.getText());
+                    cliente.setTelefono(pnl.txtTelefono.getText());
+                    generarPDFVenta(Integer.parseInt(pnl.lblID.getText()), pnl.lblFecha.getText(), cliente, pnl.tblProductos);
                     limpiar();
 
                 } else {
@@ -127,22 +134,31 @@ public class CtrlVenta implements ActionListener, ItemListener {
                 JOptionPane.showMessageDialog(null, "Debe completar todos los campos");
             }
         }
+        if (!pnl.txtDNI.getText().equals("")) {
+            Cliente cliente = new Cliente();
+            cliente.setDni(pnl.txtDNI.getText());
 
-        if (e.getSource() == pnl.btnBuscarDni) {
-            if (!pnl.txtDNI.getText().equals("")) {
-                Cliente cliente = new Cliente();
-                cliente.setDni(pnl.txtDNI.getText());
+            if (ventaDAO.buscarDNI(cliente)) {
+                pnl.lblID.setText(String.valueOf(cliente.getIdCliente()));
+                pnl.txtNombre.setText(cliente.getNombre());
+                pnl.txtApellido.setText(cliente.getApellido());
+                pnl.txtTelefono.setText(cliente.getTelefono());
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontro el dni");
+            }
+            if (e.getSource() == pnl.btnBuscarDni) {
 
-                if (ventaDAO.buscarDNI(cliente)) {
-                    pnl.lblID.setText(String.valueOf(cliente.getIdCliente()));
-                    pnl.txtNombre.setText(cliente.getNombre());
-                    pnl.txtApellido.setText(cliente.getApellido());
-                    pnl.txtTelefono.setText(cliente.getTelefono());
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se encontro el dni");
-                }
             } else {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un DNI");
+            }
+        }
+
+        if (e.getSource() == pnl.btnEliminar) {
+            int fila = pnl.tblProductos.getSelectedRow();
+            if (fila == -1) {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar una fila");
+            } else {
+                modelo.removeRow(fila);
             }
         }
     }
@@ -219,6 +235,10 @@ public class CtrlVenta implements ActionListener, ItemListener {
         for (int i = 0; i <= filas; i++) {
             modelo.removeRow(0);
         }
+
+    }
+
+    public void generarPDFVenta(int nFactura, String fechaFactura, Cliente cliente, JTable tabla) {
 
     }
 
