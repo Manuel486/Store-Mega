@@ -99,26 +99,38 @@ public class CtrlVenta implements ActionListener, ItemListener {
         double precioUnitario = Double.parseDouble(pnl.txtPrecio.getText());
         double precioTotal = cantidad * precioUnitario;
         int stock = Integer.parseInt(pnl.txtStock.getText().trim());
+        boolean productoAgregado = true;
 
-        if (stock >= cantidad) {
-            modelo = (DefaultTableModel) tabla.getModel();
-            ArrayList lista = new ArrayList();
-            lista.add(cod);
-            lista.add(descripcion);
-            lista.add(cantidad);
-            lista.add(precioUnitario);
-            lista.add(precioTotal);
+        for (int i = 0; i < pnl.tblProductos.getRowCount(); i++) {
+            if (pnl.tblProductos.getValueAt(i, 0).toString().equals(cod)) {
+                productoAgregado = false;
+                break;
+            }
+        }
 
-            Object[] objeto = new Object[5];
-            objeto[0] = lista.get(0);
-            objeto[1] = lista.get(1);
-            objeto[2] = lista.get(2);
-            objeto[3] = lista.get(3);
-            objeto[4] = lista.get(4);
-            modelo.addRow(objeto);
-            tabla.setModel(modelo);
+        if (productoAgregado) {
+            if (stock >= cantidad) {
+                modelo = (DefaultTableModel) tabla.getModel();
+                ArrayList lista = new ArrayList();
+                lista.add(cod);
+                lista.add(descripcion);
+                lista.add(cantidad);
+                lista.add(precioUnitario);
+                lista.add(precioTotal);
+
+                Object[] objeto = new Object[5];
+                objeto[0] = lista.get(0);
+                objeto[1] = lista.get(1);
+                objeto[2] = lista.get(2);
+                objeto[3] = lista.get(3);
+                objeto[4] = lista.get(4);
+                modelo.addRow(objeto);
+                tabla.setModel(modelo);
+            } else {
+                JOptionPane.showMessageDialog(null, "Stock no Disponible");
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "Stock no Disponible");
+            JOptionPane.showMessageDialog(null, "El producto ya fue agregado");
         }
 
     }
@@ -261,13 +273,13 @@ public class CtrlVenta implements ActionListener, ItemListener {
         pnl.lblTotalAPagar.setText("00.00");
 
         int filas = pnl.tblProductos.getRowCount();
-        for (int i = 0; i <filas; i++) {
+        for (int i = 0; i < filas; i++) {
             modelo.removeRow(0);
         }
 
     }
-    
-    public void limpiarCamposProducto(){
+
+    public void limpiarCamposProducto() {
         pnl.cmbProductos.setSelectedIndex(0);
         pnl.txtCodigo.setText("");
         pnl.txtDescripcion.setText("");
@@ -277,149 +289,147 @@ public class CtrlVenta implements ActionListener, ItemListener {
     }
 
     public void generarPDFVenta(int nFactura, String fechaFactura, Cliente cliente, JTable tabla) {
-        try{
+        try {
             FileOutputStream archivo;
-            File file = new File("src/Facturas/Venta_N"+nFactura+"_F"+fechaFactura+".pdf");
+            File file = new File("src/Facturas/Venta_N" + nFactura + "_F" + fechaFactura + ".pdf");
             archivo = new FileOutputStream(file);
             Document doc = new Document();
             PdfWriter.getInstance(doc, archivo);
             doc.open();
-            Image img = Image.getInstance("src/img/logo_pdf.png");           
-            
+            Image img = Image.getInstance("src/img/logo_pdf.png");
+
             Paragraph fecha = new Paragraph();
-            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN,13,Font.BOLD,BaseColor.BLACK);
+            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN, 13, Font.BOLD, BaseColor.BLACK);
             fecha.add(Chunk.NEWLINE);
             //Date date = new Date();
             //new SimpleDateFormat("dd-MM-yyyy").format(date)
-            fecha.add("Factura : "+nFactura+"\nFecha : "+fechaFactura+"\n\n");
-            
+            fecha.add("Factura : " + nFactura + "\nFecha : " + fechaFactura + "\n\n");
+
             PdfPTable Encabezado = new PdfPTable(3);
             Encabezado.setWidthPercentage(100);
             Encabezado.getDefaultCell().setBorder(0);
-            
-            float[] ColumnaEncabezado = new float[]{50f,70f,40f};
+
+            float[] ColumnaEncabezado = new float[]{50f, 70f, 40f};
             Encabezado.setWidths(ColumnaEncabezado);
             Encabezado.setHorizontalAlignment(Element.ALIGN_LEFT);
-            
+
             Encabezado.addCell(img);
 
-            Encabezado.addCell("        Ruc : "+RUC+"\n        Nombre : "+NOMBRE+"\n        Telefono: "+TELEFONO+"\n        Razon : "+RAZON);
+            Encabezado.addCell("        Ruc : " + RUC + "\n        Nombre : " + NOMBRE + "\n        Telefono: " + TELEFONO + "\n        Razon : " + RAZON);
             Encabezado.addCell(fecha);
             doc.add(Encabezado);
-            
+
             Paragraph cli = new Paragraph();
             cli.add(Chunk.NEWLINE);
             cli.add("Datos del cliente: \n\n");
             doc.add(cli);
-            
+
             PdfPTable tablacli = new PdfPTable(2);
             tablacli.setWidthPercentage(100);
-            float[] Columnacli = new float[]{15f,100f}; 
+            float[] Columnacli = new float[]{15f, 100f};
             tablacli.setWidths(Columnacli);
-            
-            PdfPCell cl1 = new PdfPCell(new Phrase("DNI : ",negrita));
+
+            PdfPCell cl1 = new PdfPCell(new Phrase("DNI : ", negrita));
             cl1.setBorder(0);
             tablacli.addCell(cl1);
             tablacli.addCell(cliente.getDni());
-            
-            PdfPCell cl2 = new PdfPCell(new Phrase("Nombre : ",negrita));
+
+            PdfPCell cl2 = new PdfPCell(new Phrase("Nombre : ", negrita));
             cl2.setBorder(0);
             tablacli.addCell(cl2);
-            tablacli.addCell(cliente.getApellido()+" "+cliente.getNombre());
-            
-            PdfPCell cl3 = new PdfPCell(new Phrase("Teléfono : ",negrita));
+            tablacli.addCell(cliente.getApellido() + " " + cliente.getNombre());
+
+            PdfPCell cl3 = new PdfPCell(new Phrase("Teléfono : ", negrita));
             cl3.setBorder(0);
             tablacli.addCell(cl3);
             tablacli.addCell(cliente.getTelefono());
-            
-            PdfPCell cl4 = new PdfPCell(new Phrase("Dirección : ",negrita));
+
+            PdfPCell cl4 = new PdfPCell(new Phrase("Dirección : ", negrita));
             cl4.setBorder(0);
             tablacli.addCell(cl4);
             tablacli.addCell(cliente.getDireccion());
-            
+
             doc.add(tablacli);
-            
+
             Paragraph titulo = new Paragraph("\nDATOS DE LA COMPRA\n\n");
             titulo.setAlignment(1);
-            
+
             doc.add(titulo);
-  
+
             // productos
             PdfPTable tablapro = new PdfPTable(5);
             tablapro.setWidthPercentage(100);
             //tablapro.getDefaultCell().setBorder(0);
-            float[] Columnapro = new float[]{15f,50f,10f,15f,20f};   
+            float[] Columnapro = new float[]{15f, 50f, 10f, 15f, 20f};
             tablapro.setWidths(Columnapro);
             tablapro.setHorizontalAlignment(Element.ALIGN_LEFT);
-            
-            
-            PdfPCell pro1 = new PdfPCell(new Phrase("\n  Código\n\n",negrita));
-            PdfPCell pro2 = new PdfPCell(new Phrase("\n  Descripcion\n\n",negrita));
-            PdfPCell pro3 = new PdfPCell(new Phrase("\n  Cant.\n\n",negrita));
-            PdfPCell pro4 = new PdfPCell(new Phrase("\n  Precio U.\n\n",negrita));
-            PdfPCell pro5 = new PdfPCell(new Phrase("\n  Precio Total\n\n",negrita));
-            
-            pro1.setBackgroundColor(new BaseColor(252,148,60));
-            pro2.setBackgroundColor(new BaseColor(252,148,60));
-            pro3.setBackgroundColor(new BaseColor(252,148,60));
-            pro4.setBackgroundColor(new BaseColor(252,148,60));
-            pro5.setBackgroundColor(new BaseColor(252,148,60));
-                       
+
+            PdfPCell pro1 = new PdfPCell(new Phrase("\n  Código\n\n", negrita));
+            PdfPCell pro2 = new PdfPCell(new Phrase("\n  Descripcion\n\n", negrita));
+            PdfPCell pro3 = new PdfPCell(new Phrase("\n  Cant.\n\n", negrita));
+            PdfPCell pro4 = new PdfPCell(new Phrase("\n  Precio U.\n\n", negrita));
+            PdfPCell pro5 = new PdfPCell(new Phrase("\n  Precio Total\n\n", negrita));
+
+            pro1.setBackgroundColor(new BaseColor(252, 148, 60));
+            pro2.setBackgroundColor(new BaseColor(252, 148, 60));
+            pro3.setBackgroundColor(new BaseColor(252, 148, 60));
+            pro4.setBackgroundColor(new BaseColor(252, 148, 60));
+            pro5.setBackgroundColor(new BaseColor(252, 148, 60));
+
             tablapro.addCell(pro1);
             tablapro.addCell(pro2);
             tablapro.addCell(pro3);
             tablapro.addCell(pro4);
             tablapro.addCell(pro5);
-            
+
             double total = 0;
-            for(int i=0;i<tabla.getRowCount();i++){
-                String codigo = "\n   "+tabla.getValueAt(i, 0)+"\n\n";
-                String descripcion = "\n   "+tabla.getValueAt(i, 1)+"\n\n";
-                String cantidad = "\n   "+tabla.getValueAt(i, 2)+"\n\n";
-                String precioUnitario = "\n   S/."+tabla.getValueAt(i, 3)+"\n\n";
-                String precioTotal = "\n   S/."+tabla.getValueAt(i, 4)+"\n\n";
-                
+            for (int i = 0; i < tabla.getRowCount(); i++) {
+                String codigo = "\n   " + tabla.getValueAt(i, 0) + "\n\n";
+                String descripcion = "\n   " + tabla.getValueAt(i, 1) + "\n\n";
+                String cantidad = "\n   " + tabla.getValueAt(i, 2) + "\n\n";
+                String precioUnitario = "\n   S/." + tabla.getValueAt(i, 3) + "\n\n";
+                String precioTotal = "\n   S/." + tabla.getValueAt(i, 4) + "\n\n";
+
                 total += Double.parseDouble(tabla.getValueAt(i, 4).toString());
-                             
+
                 tablapro.addCell(codigo);
                 tablapro.addCell(descripcion);
                 tablapro.addCell(cantidad);
                 tablapro.addCell(precioUnitario);
                 tablapro.addCell(precioTotal);
             }
-            
+
             PdfPCell final1 = new PdfPCell(new Phrase(""));
             PdfPCell final2 = new PdfPCell(new Phrase(""));
             PdfPCell final3 = new PdfPCell(new Phrase(""));
-            PdfPCell final4 = new PdfPCell(new Phrase("\n  TOTAL\n\n",negrita));
-            PdfPCell final5 = new PdfPCell(new Phrase("\n  S/."+total+"\n\n",negrita));
-            
+            PdfPCell final4 = new PdfPCell(new Phrase("\n  TOTAL\n\n", negrita));
+            PdfPCell final5 = new PdfPCell(new Phrase("\n  S/." + total + "\n\n", negrita));
+
             final1.setBorder(0);
             final2.setBorder(0);
             final3.setBorder(0);
-            final4.setBackgroundColor(new BaseColor(252,148,60));
-            
+            final4.setBackgroundColor(new BaseColor(252, 148, 60));
+
             tablapro.addCell(final1);
             tablapro.addCell(final2);
             tablapro.addCell(final3);
             tablapro.addCell(final4);
             tablapro.addCell(final5);
-                        
+
             doc.add(tablapro);
-                       
+
             doc.close();
             archivo.close();
-            
+
             //abrirArchivo(file);
-            
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
-    public void abrirArchivo(File file){
+
+    public void abrirArchivo(File file) {
         try {
-          Desktop.getDesktop().open(file);
+            Desktop.getDesktop().open(file);
         } catch (IOException ex) {
             System.out.println(ex);
         }
