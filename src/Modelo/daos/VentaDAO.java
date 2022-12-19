@@ -2,8 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Modelo;
+package Modelo.daos;
 
+import Modelo.entidad.Venta;
+import Modelo.entidad.Detalle;
+import Modelo.entidad.Producto;
+import Modelo.entidad.Cliente;
+import Util.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -151,5 +156,25 @@ public class VentaDAO extends Conexion {
         }
         
         return id;
+    }
+    
+    public boolean actualizarStock(int cantidad,int idProducto){
+        String sql = "UPDATE tb_producto SET cantidad=cantidad-? WHERE idProducto=?";
+        try {
+            con = getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cantidad);
+            ps.setInt(2, idProducto);
+            ps.execute();
+        } catch (SQLException e) {
+            System.err.println(e);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+        return false;
     }
 }
