@@ -1,8 +1,10 @@
 package Vistas;
 
+import Controlador.CtrlCliente;
 import Controlador.CtrlVenta;
 import Modelo.entidad.Venta;
 import Modelo.daos.VentaDAO;
+import Panels.PnlCliente;
 import Panels.PnlManageUser;
 import Panels.PnlNewUsers;
 import Panels.PnlVenta;
@@ -37,11 +39,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
                     PnlManageUser pnlGestionarUsuario = new PnlManageUser();
                     showForm(pnlGestionarUsuario);
                     
-                }else if(index == 2){
+                }else if(index == 2 ){
                     PnlVentaFactura pnl = new PnlVentaFactura();
                     CtrlVenta ctrlVenta = new CtrlVenta(pnl);
                     showForm(pnl);
-                } else {
+                }else if(index == 3 ){
+                    PnlCliente pnl = new PnlCliente();
+                    CtrlCliente ctrlCliente = new CtrlCliente(pnl);
+                    showForm(pnl);
+                }else {
                     showForm(new Form_Empty(index + " " + indexSubMenu));
                 }
             }
