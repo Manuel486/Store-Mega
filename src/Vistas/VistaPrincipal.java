@@ -4,9 +4,12 @@ import Controlador.CtrlCliente;
 import Controlador.CtrlVenta;
 import Modelo.entidad.Venta;
 import Modelo.daos.VentaDAO;
+import Panels.PnlAgregarCat;
 import Panels.PnlCliente;
+import Panels.PnlGestionarCat;
 import Panels.PnlManageUser;
 import Panels.PnlNewUsers;
+import Panels.PnlNuevoProducto;
 import Panels.PnlVenta;
 import Panels.PnlVentaFactura;
 import java.awt.Component;
@@ -15,14 +18,14 @@ import javaswingdev.form.Form_Empty;
 import javaswingdev.menu.EventMenuSelected;
 
 public class VistaPrincipal extends javax.swing.JFrame {
-    
+
     private static VistaPrincipal main;
-    
+
     public VistaPrincipal() {
         initComponents();
         init();
     }
-    
+
     private void init() {
         main = this;
         titleBar.initJFram(this);
@@ -31,43 +34,57 @@ public class VistaPrincipal extends javax.swing.JFrame {
             public void menuSelected(int index, int indexSubMenu) {
                 if (index == 0 && indexSubMenu == 0) {
                     showForm(new Form_Dashboard());
-                }else if(index == 1 && indexSubMenu == 1){
+                } else if (index == 1 && indexSubMenu == 1) {
                     PnlNewUsers pnlNewUsuario = new PnlNewUsers();
                     showForm(pnlNewUsuario);
-                    
-                }else if(index == 1 && indexSubMenu == 2){
+
+                } else if (index == 1 && indexSubMenu == 2) {
                     PnlManageUser pnlGestionarUsuario = new PnlManageUser();
                     showForm(pnlGestionarUsuario);
-                    
-                }else if(index == 2 ){
-                    PnlVentaFactura pnl = new PnlVentaFactura();
-                    CtrlVenta ctrlVenta = new CtrlVenta(pnl);
-                    showForm(pnl);
-                }else if(index == 3 ){
+
+                } else if (index == 2 && indexSubMenu == 1) {
+                    PnlNuevoProducto pnlNuevoProducto = new PnlNuevoProducto();
+                    showForm(pnlNuevoProducto);
+
+                } else if (index == 3 && indexSubMenu == 1) {
+                    PnlAgregarCat pnlAgrCat = new PnlAgregarCat();
+                    showForm(pnlAgrCat);
+
+                } else if (index == 3 && indexSubMenu == 2) {
+                    PnlGestionarCat pnlGestCat = new PnlGestionarCat();
+                    showForm(pnlGestCat);
+
+                } else if (index == 4 && indexSubMenu == 1) {
                     PnlCliente pnl = new PnlCliente();
                     CtrlCliente ctrlCliente = new CtrlCliente(pnl);
                     showForm(pnl);
-                }else if(index == 4 ){
+                } else if (index == 5 && indexSubMenu == 1) {
+                    PnlVentaFactura pnl = new PnlVentaFactura();
+                    CtrlVenta ctrlVenta = new CtrlVenta(pnl);
+                    showForm(pnl);
+                } else if (index == 8) {
                     main.setVisible(false);
                     FormLogin login = new FormLogin();
                     login.setVisible(true);
+                } else {
+                    showForm(new Form_Empty(index + " " + indexSubMenu));
                 }
             }
         });
         menu.setSelectedIndex(0, 0);
     }
-    
+
     public void showForm(Component com) {
         body.removeAll();
         body.add(com);
         body.repaint();
         body.revalidate();
     }
-    
+
     public static VistaPrincipal getMain() {
         return main;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

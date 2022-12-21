@@ -19,6 +19,14 @@ public class Producto {
     private int estado;
 
     public Producto() {
+        this.idProducto = 0;
+        this.nombre = "";
+        this.cantidad = 0;
+        this.precio = 0.0;
+        this.descripcion = "";
+        this.igv= 0;
+        this.idCategoria = 0;
+        this.estado = 0;
     }
     
     public Producto(int idProducto, String nombre, int cantidad, double precio, String descripcion, int igv, int idCategoria, int estado) {

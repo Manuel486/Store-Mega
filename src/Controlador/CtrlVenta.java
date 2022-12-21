@@ -146,8 +146,7 @@ public class CtrlVenta implements ActionListener, ItemListener {
                         Integer.parseInt(pnl.lblID.getText()),
                         Double.parseDouble(pnl.lblTotalAPagar.getText()),
                         this.formmato.format(fecha),
-                        1,
-                        15);
+                        1);
 
                 if (ventaDAO.registrarVenta(venta1)) {
                     JOptionPane.showMessageDialog(null, "Venta registrada");

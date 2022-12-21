@@ -32,14 +32,19 @@ public class Menu extends JPanel {
         scroll.getViewport().setOpaque(false);
         scroll.setViewportBorder(null);
         add(scroll);
-        addTitle("MAIN");
+        addTitle("INICIO");
         addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.DASHBOARD, "Dashboard"));
-        addTitle("COMPONENTES");
-        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.PERSON, "Usuario", "Nuevo", "Gestionar"));
-        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.ADD_SHOPPING_CART, "Venta"));
-        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.PERSON_PIN_CIRCLE, "Cliente"));
-        addTitle("LOGOUT");
-        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.CLOSE, "Logout"));
+        addTitle("HERRAMIENTAS");
+        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.PERSON, "Usuario", "Nuevo Usuario", "Gestionar Usuario"));
+        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.ADD_SHOPPING_CART, "Productos", "Agregar Productos", "Gestionar Productos", "Actualizar Productos"));
+        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.CREATE, "Categorías", "Agregar Categoría", "Gestionar Categoría"));
+        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.PERSON_PIN, "Clientes", "Gestionar Clientes"));
+        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.NOTE_ADD, "Venta y Facturación", "Nueva Venta"));
+        addTitle("HISTORIAL Y REPORTES");
+        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.PIE_CHART_OUTLINED, "Reportes"));
+        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.HISTORY, "Historial"));
+        addTitle("SESIÓN");
+        addMenuItem(new ModelMenuItem(GoogleMaterialDesignIcon.EXIT_TO_APP, "Salir"));
     }
 
     private JScrollPane createScroll() {

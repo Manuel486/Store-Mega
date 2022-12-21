@@ -14,18 +14,16 @@ public class Venta {
     private double valorPagar;
     private String fechaVenta;
     private int estado;
-    private double montoIgv;
 
     public Venta() {
     }
 
-    public Venta(int idCabecera, int idCliente, double valorPagar, String fechaVenta, int estado, double montoIgv) {
+    public Venta(int idCabecera, int idCliente, double valorPagar, String fechaVenta, int estado) {
         this.idCabecera = idCabecera;
         this.idCliente = idCliente;
         this.valorPagar = valorPagar;
         this.fechaVenta = fechaVenta;
         this.estado = estado;
-        this.montoIgv = montoIgv;
     }
 
     public int getIdCabecera() {
@@ -67,12 +65,5 @@ public class Venta {
     public void setEstado(int estado) {
         this.estado = estado;
     }
-
-    public double getMontoIgv() {
-        return montoIgv;
-    }
-
-    public void setMontoIgv(double montoIgv) {
-        this.montoIgv = montoIgv;
-    }
+    
 }

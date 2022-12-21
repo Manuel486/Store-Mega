@@ -4,6 +4,10 @@
  */
 package Panels;
 
+import Controlador.Ctrl_Usuario;
+import Modelo.entidad.Usuario;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author abelv
@@ -28,15 +32,15 @@ public class PnlNewUsers extends javax.swing.JPanel {
 
         roundPanel1 = new javaswingdev.swing.RoundPanel();
         jLabel1 = new javax.swing.JLabel();
-        textField1 = new Vistas.TextField();
-        textField2 = new Vistas.TextField();
-        textField3 = new Vistas.TextField();
-        textField4 = new Vistas.TextField();
-        textField5 = new Vistas.TextField();
-        jButton1 = new javax.swing.JButton();
+        txtNombre = new Vistas.TextField();
+        txtApellido = new Vistas.TextField();
+        txtUsuario = new Vistas.TextField();
+        txtTelefono = new Vistas.TextField();
+        btnGuardarUsuario = new javax.swing.JButton();
+        txtPassword = new Vistas.PasswordField();
 
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(870, 334));
+        setPreferredSize(new java.awt.Dimension(870, 664));
 
         roundPanel1.setBackground(new java.awt.Color(255, 255, 255));
         roundPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -47,21 +51,26 @@ public class PnlNewUsers extends javax.swing.JPanel {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar-usuario-2.png"))); // NOI18N
         jLabel1.setText("Agregar Usuario");
 
-        textField1.setLabelText("Nombres");
+        txtNombre.setLabelText("Nombres");
 
-        textField2.setLabelText("Apellidos");
+        txtApellido.setLabelText("Apellidos");
 
-        textField3.setLabelText("Usuario");
+        txtUsuario.setLabelText("Usuario");
 
-        textField4.setLabelText("Contraseña");
+        txtTelefono.setLabelText("Teléfono");
 
-        textField5.setLabelText("Teléfono");
+        btnGuardarUsuario.setBackground(new java.awt.Color(255, 145, 56));
+        btnGuardarUsuario.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnGuardarUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardarUsuario.setText("Guardar");
+        btnGuardarUsuario.setBorder(null);
+        btnGuardarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarUsuarioActionPerformed(evt);
+            }
+        });
 
-        jButton1.setBackground(new java.awt.Color(255, 145, 56));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Agregar");
-        jButton1.setBorder(null);
+        txtPassword.setLabelText("Contraseña");
 
         javax.swing.GroupLayout roundPanel1Layout = new javax.swing.GroupLayout(roundPanel1);
         roundPanel1.setLayout(roundPanel1Layout);
@@ -73,15 +82,15 @@ public class PnlNewUsers extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addGroup(roundPanel1Layout.createSequentialGroup()
                         .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(textField5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(textField3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(textField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGuardarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(107, 107, 107)
                         .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textField2, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                            .addComponent(textField4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(165, Short.MAX_VALUE))
+                            .addComponent(txtApellido, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(223, Short.MAX_VALUE))
         );
         roundPanel1Layout.setVerticalGroup(
             roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -90,16 +99,16 @@ public class PnlNewUsers extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addGap(62, 62, 62)
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(roundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
-                .addComponent(textField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGuardarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(158, Short.MAX_VALUE))
         );
 
@@ -108,28 +117,72 @@ public class PnlNewUsers extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(30, 30, 30)
                 .addComponent(roundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(63, 63, 63))
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
+                .addGap(30, 30, 30)
                 .addComponent(roundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGuardarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarUsuarioActionPerformed
+
+        if (txtNombre.getText().isEmpty() || txtApellido.getText().isEmpty() || txtUsuario.getText().isEmpty() || txtPassword.getText().isEmpty() || txtTelefono.getText().isEmpty()) {
+
+            JOptionPane.showMessageDialog(null, "Complete todos los campos");
+
+        } else {
+            //Validamos si el usuario ya se registró
+            Usuario usuario = new Usuario();
+            Ctrl_Usuario controlUsuario = new Ctrl_Usuario();
+
+            if (!controlUsuario.existeUsuario(txtUsuario.getText().trim())) {
+
+                usuario.setNombre(txtNombre.getText().trim());
+                usuario.setApellido(txtApellido.getText().trim());
+                usuario.setUsuario(txtUsuario.getText().trim());
+                usuario.setPassword(txtPassword.getText().trim());
+                usuario.setTelefono(txtTelefono.getText().trim());
+                usuario.setEstado(1);
+
+                if (controlUsuario.guardar(usuario)) {
+                    JOptionPane.showMessageDialog(null, "Usuario registrado");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al registrar usuario");
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "El usuario ya está registrado");
+            }
+        }
+        
+        this.Limpiar();
+    }//GEN-LAST:event_btnGuardarUsuarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnGuardarUsuario;
     private javax.swing.JLabel jLabel1;
     private javaswingdev.swing.RoundPanel roundPanel1;
-    private Vistas.TextField textField1;
-    private Vistas.TextField textField2;
-    private Vistas.TextField textField3;
-    private Vistas.TextField textField4;
-    private Vistas.TextField textField5;
+    private Vistas.TextField txtApellido;
+    private Vistas.TextField txtNombre;
+    private Vistas.PasswordField txtPassword;
+    private Vistas.TextField txtTelefono;
+    private Vistas.TextField txtUsuario;
     // End of variables declaration//GEN-END:variables
+
+    //Método para limpiar
+    private void Limpiar(){
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtPassword.setText("");
+        txtUsuario.setText("");
+        txtTelefono.setText("");
+    }
+
 }

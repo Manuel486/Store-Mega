@@ -5,7 +5,7 @@
 package Modelo.daos;
 
 import Modelo.entidad.Cliente;
-import Util.Conexion;
+import Conexion.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

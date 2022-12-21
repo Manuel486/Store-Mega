@@ -8,7 +8,7 @@ import Modelo.entidad.Venta;
 import Modelo.entidad.Detalle;
 import Modelo.entidad.Producto;
 import Modelo.entidad.Cliente;
-import Util.Conexion;
+import Conexion.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +25,7 @@ public class VentaDAO extends Conexion {
     ResultSet rs;
     
     public boolean registrarVenta(Venta v){
-        String sql = "INSERT INTO tb_cabecera_venta (idCliente,valorPagar,fechaVenta,estado,montoIgv) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO tb_cabecera_venta (idCliente,valorPagar,fechaVenta,estado) VALUES (?,?,?,?)";
         try{
            con = getConexion();
            ps = con.prepareStatement(sql);
@@ -33,7 +33,6 @@ public class VentaDAO extends Conexion {
            ps.setDouble(2, v.getValorPagar());
            ps.setString(3,v.getFechaVenta());
            ps.setInt(4, v.getEstado());
-           ps.setDouble(5, v.getMontoIgv());
            ps.execute();
            
            return true;
