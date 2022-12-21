@@ -12,7 +12,7 @@ import Vistas.FormLogin;
  */
 public class Main {
     public static void main(String[] args) {
-        //FormLogin frmLogin = new FormLogin();
-        //frmLogin.setVisible(true);
+        FormLogin frmLogin = new FormLogin();
+        frmLogin.setVisible(true);
     }
 }

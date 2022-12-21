@@ -126,6 +126,7 @@ public class CtrlVenta implements ActionListener, ItemListener {
                 objeto[4] = lista.get(4);
                 modelo.addRow(objeto);
                 tabla.setModel(modelo);
+                limpiarCamposProducto();
             } else {
                 JOptionPane.showMessageDialog(null, "Stock no Disponible");
             }
@@ -159,7 +160,7 @@ public class CtrlVenta implements ActionListener, ItemListener {
                     cliente.setDireccion(pnl.lblDireccion.getText());
                     generarPDFVenta(Integer.parseInt(pnl.lblVenta.getText()), pnl.lblFecha.getText(), cliente, pnl.tblProductos);
                     limpiar();
-
+                    lista = ventaDAO.listarProducto();
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al Guardar");
                 }
@@ -172,7 +173,6 @@ public class CtrlVenta implements ActionListener, ItemListener {
             if (!pnl.txtCantidad.getText().equals("") && pnl.cmbProductos.getSelectedIndex() != 0) {
                 agregarProducto(pnl.tblProductos);
                 totalPagar();
-                limpiarCamposProducto();
             } else {
                 JOptionPane.showMessageDialog(null, "Debe completar todos los campos");
             }
@@ -201,9 +201,10 @@ public class CtrlVenta implements ActionListener, ItemListener {
         if (e.getSource() == pnl.btnEliminar) {
             int fila = pnl.tblProductos.getSelectedRow();
             if (fila == -1) {
-                JOptionPane.showMessageDialog(null, "Debe seleccionar una fila");
+                JOptionPane.showMessageDialog(null, "Debe seleccionar una producto de la tabla");
             } else {
                 modelo.removeRow(fila);
+                totalPagar();
             }
         }
     }

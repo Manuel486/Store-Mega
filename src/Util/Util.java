@@ -16,5 +16,5 @@ public class Util {
     public static final String NOMBRE = "STORE MEGA";
     public static final String TELEFONO = "941651";
     public static final String RAZON = "S.A.C";
-
+ 
 }

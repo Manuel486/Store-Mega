@@ -47,8 +47,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
                     PnlCliente pnl = new PnlCliente();
                     CtrlCliente ctrlCliente = new CtrlCliente(pnl);
                     showForm(pnl);
-                }else {
-                    showForm(new Form_Empty(index + " " + indexSubMenu));
+                }else if(index == 4 ){
+                    main.setVisible(false);
+                    FormLogin login = new FormLogin();
+                    login.setVisible(true);
                 }
             }
         });
